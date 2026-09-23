@@ -25,7 +25,7 @@ bash scripts/build-local.sh
 Open `build/Beamlet.app` to use the current direct-distribution development build.
 The app requires a compatible Claude Code installation and completed login, workspace trust and Remote Control consent.
 
-A separate `BeamletStore` scheme isolates sandboxing, privacy resources and App Store-only update behavior. See [App Store build status](docs/APP-STORE-BUILD.md) before using it: **external CLI compatibility and review eligibility are unresolved; do not submit this build yet.**
+A separate `BeamletStore` scheme isolates sandboxing, privacy resources and App Store-only update behavior. See [App Store build status](docs/APP-STORE-BUILD.md) before using it: **App Sandbox blocks the current external CLI launch design; do not submit this build.**
 
 ## Support and policies
 

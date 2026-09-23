@@ -1,6 +1,6 @@
 # App Store distribution work
 
-Updated 2026-09-23. **A store-specific compatibility build exists; it is not submission-ready.**
+Updated 2026-09-23. **A store-specific compatibility build exists, but its external CLI launch design is blocked by App Sandbox. It is not submission-ready.**
 
 ## Implemented
 
@@ -35,7 +35,7 @@ The validator checks entitlements, nested signatures, required resources, absenc
 - Real PTY lifecycle tests: 5 passed, covering cleanup, duplicate ownership, final output and bounded termination.
 - Sandboxed bundled-runner probe: `container_home=true`, `runner_exit=0`, `BEAMLET_SANDBOX_PTY_OK`.
 - Installed Claude binary without a user selection grant: `runner_exit=127`, `BEAMLET_RUNNER_ERROR: executable unavailable`.
-- Selected-executable probe: built successfully, but live native file-picker verification is blocked while the Mac is locked. This is a different test from the no-grant case above.
+- Selected-executable probe: built and launched. After the Mac was unlocked, native automation failed with a ScreenCaptureKit capture error. No selected-file runtime result has been observed. This is a different test from the no-grant case above.
 - Sign-in, live Remote Control and clean-machine sandbox flow: not verified.
 
 Reproduce the safe supervisor test:
@@ -50,7 +50,9 @@ For the native picker experiment, build `bash scripts/build-picker-probe.sh`, la
 
 ## Remaining release blockers
 
-The architecture still depends on separately installed Claude Code and its existing configuration/authentication. File access is not evidence of permission to execute arbitrary external code, inherit every dynamic grant, access external Keychain items or redistribute Claude. These must be validated through a supported design. The store target is explicitly labeled as a compatibility build in Settings until this work is resolved.
+Apple's current [sandbox file-access documentation](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox), under “Access user-selected files,” explicitly disallows using user-selected file entitlements to run programs outside the app bundle, sandbox container or app group containers. The installed Claude executable is outside those locations. A picker grant or persistent bookmark therefore cannot repair this launch architecture. The `files.user-selected.executable` entitlement concerns writing executable files, not permission to run an external installed CLI.
+
+This is a documented architectural blocker, independently of the pending picker probe. The app cannot be made submission-ready merely by enabling sandboxing, removing Sparkle and signing the archive. A supported redesign must also resolve Claude distribution rights, authentication, configuration and project-tool access. The store target remains a compatibility experiment.
 
 Do not upload the current build as a functional release or use an unsandboxed helper installer as an assumed workaround. Apple requires appropriately sandboxed, self-contained Mac apps; approval of other Claude-related utilities does not establish approval of this process-launching design.
 
