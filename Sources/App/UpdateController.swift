@@ -1,4 +1,6 @@
 import Foundation
+import Combine
+#if !APP_STORE
 import Sparkle
 
 @MainActor
@@ -69,3 +71,13 @@ final class UpdateController: NSObject, ObservableObject, SPUUpdaterDelegate {
                 userInfo: [NSLocalizedDescriptionKey: "Stop Remote Control before updating Beamlet."])
     }
 }
+
+#else
+/// The store target does not link or embed any external updater.
+@MainActor
+final class UpdateController: ObservableObject {
+    let configured = false
+    let checking = false
+    init(session: SessionController) {}
+}
+#endif

@@ -4,6 +4,9 @@ import BeamletCore
 
 enum CLIInstallation {
     static func executable(override: String) -> URL? {
+        #if APP_STORE
+        guard !override.isEmpty else { return nil }
+        #endif
         let home = FileManager.default.homeDirectoryForCurrentUser.path
         let paths = override.isEmpty
             ? ["\(home)/.local/bin/claude", "/opt/homebrew/bin/claude", "/usr/local/bin/claude"]
@@ -30,6 +33,11 @@ enum CLIInstallation {
 
     /// Read-only best-effort conflict discovery. Never signal these PIDs.
     static func hasExternalServer(in folder: URL) -> Bool {
+        #if APP_STORE
+        // The sandbox cannot reliably inspect unrelated processes. The UI explicitly
+        // asks the user to stop externally launched servers; our own lock still applies.
+        return false
+        #else
         guard let snapshot = capture("/bin/ps", ["-axo", "pid=,args="]) else { return false }
         for line in snapshot.split(separator: "\n") {
             guard !line.contains("BeamletRunner"),
@@ -44,6 +52,7 @@ enum CLIInstallation {
             }
         }
         return false
+        #endif
     }
 
     private static func capture(_ path: String, _ arguments: [String]) -> String? {

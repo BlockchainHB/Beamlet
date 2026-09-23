@@ -4,7 +4,7 @@
 
 Beamlet owns the `claude remote-control` process it starts, shows its connection state, and stops it when you press Stop or quit. Conversations stay in Claude's existing clients.
 
-Status: planning and implementation in progress. No public release yet.
+Status: source available; development builds only. No public binary or App Store release yet.
 
 - [Product plan](docs/PLAN.md)
 - [Architecture decisions](docs/DECISIONS.md)
@@ -13,3 +13,22 @@ Status: planning and implementation in progress. No public release yet.
 - [Verification and release gates](docs/VERIFICATION.md)
 
 Independent community utility; not an Anthropic product. Claude Code must already be installed. Its authentication, permissions, network connections, and data policies remain its own.
+
+## Build
+
+Install Xcode and XcodeGen, then:
+
+```sh
+bash scripts/build-local.sh
+```
+
+Open `build/Beamlet.app` to use the current direct-distribution development build.
+The app requires a compatible Claude Code installation and completed login, workspace trust and Remote Control consent.
+
+A separate `BeamletStore` scheme isolates sandboxing, privacy resources and App Store-only update behavior. See [App Store build status](docs/APP-STORE-BUILD.md) before using it: **external CLI compatibility and review eligibility are unresolved; do not submit this build yet.**
+
+## Support and policies
+
+[Support](https://blockchainhb.github.io/Beamlet/support/) · [Privacy](https://blockchainhb.github.io/Beamlet/privacy/) · [Terms](https://blockchainhb.github.io/Beamlet/terms/)
+
+Free and open source under the [MIT License](LICENSE). Third-party dependencies retain their own licenses.

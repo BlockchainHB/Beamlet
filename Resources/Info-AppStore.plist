@@ -30,13 +30,5 @@
 	<string>Copyright © 2026 HASAAM MANZOOR BHATTI and Beamlet contributors</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>SUAutomaticallyUpdate</key>
-	<false/>
-	<key>SUEnableAutomaticChecks</key>
-	<false/>
-	<key>SUEnableSystemProfiling</key>
-	<false/>
-	<key>SUVerifyUpdateBeforeExtraction</key>
-	<true/>
 </dict>
 </plist>

@@ -1,0 +1,2 @@
+// Copy to Release.local.xcconfig at the repository root.
+DEVELOPMENT_TEAM = YOUR_TEAM_ID

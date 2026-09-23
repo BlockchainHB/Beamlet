@@ -1,3 +1,5 @@
+> Historical implementation checks follow. For current store-build results and unresolved gates, see [APP-STORE-BUILD.md](APP-STORE-BUILD.md).
+
 # Verification and release gates
 
 Completion requires evidence for every row. Tests against fixtures do not prove real CLI compatibility.

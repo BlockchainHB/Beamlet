@@ -123,6 +123,7 @@ struct SettingsView: View {
                     Spacer(minLength: 0)
                     Button("Choose…") { chooseFolder() }
                         .accessibilityLabel("Choose starting folder")
+                        .disabled(preferences.requiresExplicitAccess && session.isBusy)
                 }
                 if let active = session.activeFolder, active != preferences.folderURL.path {
                     Text("Your new folder will be used the next time you start Remote Control.")
@@ -135,13 +136,30 @@ struct SettingsView: View {
                     Spacer(minLength: 0)
                     Button("Choose…") { chooseExecutable() }
                         .accessibilityLabel("Choose Claude Code executable")
+                        .disabled(preferences.requiresExplicitAccess && session.isBusy)
                 }
+                #if !APP_STORE
                 if !preferences.executable.isEmpty {
                     Button("Use automatically detected Claude Code") { preferences.executable = "" }
                 }
+                #endif
+                #if APP_STORE
+                Text("Choose your installed Claude Code executable. Sign-in access is still being validated.")
+                    .font(.caption).foregroundStyle(.secondary)
+                #else
                 Text("Uses your existing Claude Code sign-in and permissions.")
                     .font(.caption).foregroundStyle(.secondary)
+                #endif
             }
+            if let error = preferences.accessError {
+                Section { Text(error).foregroundStyle(.secondary) }
+            }
+            #if APP_STORE
+            Section {
+                Text("App Store compatibility build: Claude Code sign-in and external tool access are still being validated. Stop any Remote Control started in Terminal before testing here.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            #endif
             if let issue = session.state.issue {
                 Section {
                     Label(issue.message, systemImage: "exclamationmark.triangle")
@@ -186,6 +204,7 @@ struct SettingsView: View {
                     }
                 }.padding(.vertical, 8)
             }
+            #if !APP_STORE
             Section("Updates") {
                 HStack {
                     Button("Check for Updates…") { updates.check() }
@@ -197,9 +216,13 @@ struct SettingsView: View {
                 Text(session.isBusy && updates.configured ? "Stop Remote Control before installing an update." : updates.message)
                     .font(.caption).foregroundStyle(.secondary)
             }
+            #endif
             Section("Privacy & support") {
                 Text("Connection events stay on this Mac. No analytics, automatic uploads, or saved conversations.")
                     .font(.callout).foregroundStyle(.secondary)
+                Link("Privacy policy", destination: URL(string: "https://blockchainhb.github.io/Beamlet/privacy/")!)
+                Link("Terms of use", destination: URL(string: "https://blockchainhb.github.io/Beamlet/terms/")!)
+                Link("Support", destination: URL(string: "https://blockchainhb.github.io/Beamlet/support/")!)
                 DisclosureGroup("Connection diagnostics", isExpanded: $showDiagnostics) {
                     VStack(alignment: .leading, spacing: 10) {
                         ScrollView {
@@ -248,7 +271,7 @@ struct SettingsView: View {
         panel.canChooseFiles = false
         panel.allowsMultipleSelection = false
         panel.prompt = "Choose folder"
-        if panel.runModal() == .OK, let url = panel.url { preferences.folder = url.path }
+        if panel.runModal() == .OK, let url = panel.url { preferences.selectFolder(url) }
     }
 
     private func chooseExecutable() {
@@ -258,7 +281,7 @@ struct SettingsView: View {
         panel.showsHiddenFiles = true
         panel.allowsMultipleSelection = false
         panel.prompt = "Choose Claude"
-        if panel.runModal() == .OK, let url = panel.url { preferences.executable = url.path }
+        if panel.runModal() == .OK, let url = panel.url { preferences.selectExecutable(url) }
     }
 
     private func copySetup() {
