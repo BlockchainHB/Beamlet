@@ -11,6 +11,11 @@ case "${1:-help}" in
     xcodebuild -project Beamlet.xcodeproj -scheme Beamlet -configuration Release \
       -destination 'generic/platform=macOS' -derivedDataPath build/DirectRelease \
       -archivePath "$archive" CODE_SIGNING_ALLOWED=NO archive
+    # Xcode's exporter preserves code-signing flags from the archive. Seed
+    # hardened runtime on our otherwise unsigned executables before export.
+    archive_app="$archive/Products/Applications/Beamlet.app"
+    codesign --force --sign - --options runtime "$archive_app/Contents/Helpers/BeamletRunner"
+    codesign --force --sign - --options runtime "$archive_app"
     python3 scripts/validate-release.py "$archive/Products/Applications/Beamlet.app" --unsigned
     ;;
   export)
@@ -44,6 +49,25 @@ print('Submitted:',json.loads(Path('build/notarization-submission.json').read_te
 print('Run the finish-notarization stage to wait for this submission.')
 PY
     ;;
+  notarize-xcode)
+    # Reuse Xcode's signed-in account; no password or API key is read by this script.
+    python3 scripts/validate-release.py "$app"
+    python3 - <<'PY'
+import plistlib
+from pathlib import Path
+options=plistlib.loads(Path('build/DeveloperID-ExportOptions.plist').read_bytes())
+options['destination']='upload'
+Path('build/Notarize-ExportOptions.plist').write_bytes(plistlib.dumps(options))
+PY
+    xcodebuild -exportArchive -archivePath "$archive" \
+      -exportOptionsPlist build/Notarize-ExportOptions.plist -exportPath build/NotaryExport
+    echo 'Uploaded. Use finish-notarization-xcode after Apple finishes processing; do not resubmit.'
+    ;;
+  finish-notarization-xcode)
+    xcodebuild -exportNotarizedApp -archivePath "$archive" -exportPath build/Notarized
+    python3 scripts/validate-release.py build/Notarized/Beamlet.app --notarized
+    ditto build/Notarized/Beamlet.app "$app"
+    ;;
   finish-notarization)
     : "${BEAMLET_NOTARY_PROFILE:?Set the name of an existing notarytool Keychain profile}"
     submission_id="$(python3 -c 'import json; print(json.load(open("build/notarization-submission.json"))["id"])')"
@@ -69,7 +93,7 @@ PY
     printf 'Verified release assets: build/release/%s and .sha256\n' "$asset"
     ;;
   *)
-    echo 'Usage: bash scripts/release.sh {archive|export|notarize|finish-notarization|package}'
+    echo 'Usage: bash scripts/release.sh {archive|export|notarize-xcode|finish-notarization-xcode|notarize|finish-notarization|package}'
     echo 'See docs/DIRECT-RELEASE.md. Publication is a separate, explicit operation.'
     ;;
 esac

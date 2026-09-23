@@ -4,7 +4,7 @@ Beamlet ships through GitHub Releases. The `Beamlet` scheme is the direct build;
 
 ## Current status
 
-The first public beta is being prepared. The local machine currently has an Apple Development identity but no Developer ID Application identity. Public binary publication is blocked until Developer ID signing, notarization and final packaged-app verification are complete. Source and the public website are available now. The universal direct Release archive and its layout validator pass; 19 Swift regression tests and five PTY lifecycle tests pass. Signing/export/notarization stages are prepared but cannot yet be verified without the missing identity and notarization authentication.
+The first public beta is being prepared. Developer ID export now passes: all seven executables have matching team signatures, hardened runtime and secure timestamps. Apple has received the build through Xcode for notarization; acceptance and final packaged-app verification are pending. The universal direct Release archive and its layout validator pass; 19 Swift regression tests and five PTY lifecycle tests pass.
 
 The first release uses manual downloads from GitHub. Sparkle is present but unconfigured: no background update requests or automatic installations. Settings links to Releases. A future automatic-update rollout must establish a signing key, signed appcast, update-host privacy disclosure and upgrade test first.
 
@@ -12,7 +12,7 @@ The first release uses manual downloads from GitHub. Sparkle is present but unco
 
 1. In Xcode → Settings → Accounts → your Apple Developer team → Manage Certificates, create a **Developer ID Application** certificate. The private key must remain in your Keychain.
 2. Set the non-secret `BEAMLET_TEAM_ID` environment variable to the Apple team that owns the certificate.
-3. Configure a `notarytool` Keychain profile, or use Xcode Organizer's Developer ID distribution workflow. For the CLI, run `xcrun notarytool store-credentials Beamlet-Notary` yourself in Terminal and answer its secure prompts. Do not paste credentials into chat, shell history, source files, or GitHub issues.
+3. Prefer the Xcode account route below if Xcode is already signed in. Alternatively, configure a `notarytool` Keychain profile or use Xcode Organizer's Developer ID distribution workflow. For the CLI, run `xcrun notarytool store-credentials Beamlet-Notary` yourself in Terminal and answer its secure prompts. Do not paste credentials into chat, shell history, source files, or GitHub issues.
 4. Set `BEAMLET_NOTARY_PROFILE=Beamlet-Notary` when using the script. A profile name is not a credential.
 
 Apple's [Developer ID documentation](https://developer.apple.com/developer-id/) and [notarization workflow](https://developer.apple.com/documentation/security/customizing-the-notarization-workflow) describe these requirements.
@@ -24,14 +24,15 @@ Run from a clean checkout of the release commit with the selected Xcode toolchai
 ```sh
 bash scripts/release.sh archive
 BEAMLET_TEAM_ID=YOUR_TEAM_ID bash scripts/release.sh export
-BEAMLET_NOTARY_PROFILE=Beamlet-Notary bash scripts/release.sh notarize
-BEAMLET_NOTARY_PROFILE=Beamlet-Notary bash scripts/release.sh finish-notarization
+bash scripts/release.sh notarize-xcode
+bash scripts/release.sh finish-notarization-xcode
 bash scripts/release.sh package
 ```
 
-- `archive` builds Release for both Apple Silicon and Intel, with real Icon Composer assets. It intentionally leaves signing to the export stage.
+- `archive` builds Release for both Apple Silicon and Intel, with real Icon Composer assets. It seeds ad-hoc hardened-runtime flags on the app and runner because Xcode preserves those flags during export. These intermediate signatures are not distribution signatures.
 - `export` requires an existing Developer ID Application identity and delegates nested signing to Xcode. It does not create certificates or ask for account credentials.
-- `notarize` uploads the signed app to Apple and records the submission ID locally. If waiting is interrupted, resume with `finish-notarization`; do not resubmit the same build just to poll it.
+- `notarize-xcode` uploads for notarization using the account already signed into Xcode. `finish-notarization-xcode` exports the accepted app and validates its ticket. If Apple reports processing, wait and retry the finish stage; do not re-upload. No separate password is needed for this route.
+- As an alternative, `notarize` uses a `BEAMLET_NOTARY_PROFILE` Keychain profile and records the submission ID locally. If waiting is interrupted, resume with `finish-notarization`; do not resubmit the same build just to poll it.
 - `finish-notarization` requires Apple's Accepted result before stapling, then checks the ticket and Gatekeeper assessment.
 - `package` refuses an app without a valid stapled ticket. It preserves framework symlinks with `ditto` and creates a versioned universal ZIP and SHA-256 checksum in `build/release/`.
 
