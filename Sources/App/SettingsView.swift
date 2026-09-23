@@ -36,7 +36,6 @@ struct SettingsView: View {
             }
             .listStyle(.sidebar)
             .scrollContentBackground(.hidden)
-            .padding(.top, 12)
             .frame(width: 170)
             .frame(maxHeight: .infinity)
             .background {
@@ -47,7 +46,7 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(selection.title)
                     .font(.system(size: 24, weight: .semibold, design: .rounded))
-                    .padding(.horizontal, 24).padding(.top, 22).padding(.bottom, 4)
+                    .padding(.horizontal, 24).padding(.top, 8).padding(.bottom, 4)
                 Group {
                     switch selection {
                     case .general: general
