@@ -207,8 +207,12 @@ struct SettingsView: View {
             #if !APP_STORE
             Section("Updates") {
                 HStack {
-                    Button("Check for Updates…") { updates.check() }
-                        .disabled(!updates.configured || session.isBusy || updates.checking)
+                    if updates.configured {
+                        Button("Check for Updates…") { updates.check() }
+                            .disabled(session.isBusy || updates.checking)
+                    } else {
+                        Link("View GitHub releases…", destination: URL(string: "https://github.com/BlockchainHB/Beamlet/releases")!)
+                    }
                     if updates.hasDeferredInstall {
                         Button("Install update") { updates.installWhenStopped() }.disabled(session.isBusy)
                     }

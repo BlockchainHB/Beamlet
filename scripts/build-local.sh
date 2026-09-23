@@ -23,6 +23,7 @@ xcrun actool Resources/Beamlet.icon \
   --platform macosx --minimum-deployment-target 14.0 \
   --output-partial-info-plist "$PWD/build/icon-info.plist"
 cp Resources/PrivacyInfo.xcprivacy "$app/Contents/Resources/PrivacyInfo.xcprivacy"
+cp Resources/Sparkle-LICENSE.txt Resources/Beamlet-LICENSE.txt "$app/Contents/Resources/"
 cp Resources/Info.plist "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleExecutable Beamlet' "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier app.beamlet.mac' "$app/Contents/Info.plist"

@@ -1,4 +1,4 @@
-> Historical implementation checks follow. For current store-build results and unresolved gates, see [APP-STORE-BUILD.md](APP-STORE-BUILD.md).
+> Historical implementation checks follow. The current distribution route is GitHub; see [DIRECT-RELEASE.md](DIRECT-RELEASE.md). For the nonshipping store experiment, see [APP-STORE-BUILD.md](APP-STORE-BUILD.md).
 
 # Verification and release gates
 

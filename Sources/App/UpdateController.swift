@@ -6,7 +6,7 @@ import Sparkle
 @MainActor
 final class UpdateController: NSObject, ObservableObject, SPUUpdaterDelegate {
     @Published private(set) var configured = false
-    @Published private(set) var message = "Updates will be available in the signed release."
+    @Published private(set) var message = "Download new versions from GitHub Releases. Automatic updates are not enabled."
     @Published private(set) var checking = false
     private var controller: SPUStandardUpdaterController?
     private let session: SessionController
@@ -28,7 +28,7 @@ final class UpdateController: NSObject, ObservableObject, SPUUpdaterDelegate {
 
     func check() {
         guard configured, !session.isBusy else {
-            message = configured ? "Stop Remote Control before updating Beamlet." : "Updates will be available in the signed release."
+            message = configured ? "Stop Remote Control before updating Beamlet." : "Download new versions from GitHub Releases. Automatic updates are not enabled."
             return
         }
         checking = true

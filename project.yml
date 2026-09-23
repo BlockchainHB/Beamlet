@@ -36,6 +36,10 @@ targets:
         buildPhase: resources
       - path: Resources/PrivacyInfo.xcprivacy
         buildPhase: resources
+      - path: Resources/Sparkle-LICENSE.txt
+        buildPhase: resources
+      - path: Resources/Beamlet-LICENSE.txt
+        buildPhase: resources
     dependencies:
       - package: BeamletCore
       - package: Sparkle

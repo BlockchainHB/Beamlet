@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		17AD27A29FE64A23D5D6BE31 /* BeamletSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55027E439561E743729DA531 /* BeamletSurface.swift */; };
+		187708693A4AF062C8E7243F /* Beamlet-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = A7B7F3788197D4DB10456C88 /* Beamlet-LICENSE.txt */; };
 		2328BA5A689E7022BB255C7E /* CLIInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BB7B79CAD688CAA8BFE0B /* CLIInstallation.swift */; };
 		243336E516F82D62436EFFF0 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEA7EE305A8099939DD369 /* Preferences.swift */; };
 		2483E631A5B222521FACB9B7 /* Beamlet.icon in Resources */ = {isa = PBXBuildFile; fileRef = AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */; };
@@ -16,6 +17,7 @@
 		2BEEBB1FFE41DA6795DEA2B9 /* Beamlet.icon in Resources */ = {isa = PBXBuildFile; fileRef = AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */; };
 		309017C352E87E9279448485 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F35CDB99DC501D1B9384190 /* SessionController.swift */; };
 		3B71335A23B70CD84E066F5F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9521791476EF8F99E5F8C458 /* SettingsView.swift */; };
+		40EEA63EEAFF4335438C4B70 /* Sparkle-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = C16B7F98DF6BA42B70D20E7D /* Sparkle-LICENSE.txt */; };
 		41AAACA9BB5C9A58BE9EB30D /* SecurityScopedSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E66BD1CB0DDF9F3CC0A5D109 /* SecurityScopedSelection.swift */; };
 		4BB58877DDB343D56A377CB2 /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15786DF7A001BCB090F5CA28 /* UpdateController.swift */; };
 		4E1A3947FD43E41217DEBE7A /* ProcessTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8779AAC3B90A137D6B48F60F /* ProcessTransport.swift */; };
@@ -72,8 +74,10 @@
 		959F939B27F96BB853B89793 /* BeamletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeamletApp.swift; sourceTree = "<group>"; };
 		9989C28D82F201958055C69D /* SystemServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemServices.swift; sourceTree = "<group>"; };
 		A241A2B21781A6BA74EA4EAB /* BeamletMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeamletMark.swift; sourceTree = "<group>"; };
+		A7B7F3788197D4DB10456C88 /* Beamlet-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Beamlet-LICENSE.txt"; sourceTree = "<group>"; };
 		AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = Beamlet.icon; sourceTree = "<group>"; };
 		B9B830BEF5916EC943933528 /* BeamletRunnerStore */ = {isa = PBXFileReference; includeInIndex = 0; path = BeamletRunnerStore; sourceTree = BUILT_PRODUCTS_DIR; };
+		C16B7F98DF6BA42B70D20E7D /* Sparkle-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Sparkle-LICENSE.txt"; sourceTree = "<group>"; };
 		C6BEA7EE305A8099939DD369 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		E12E47C9B5F582AD6DA59E6D /* Beamlet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beamlet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E66BD1CB0DDF9F3CC0A5D109 /* SecurityScopedSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityScopedSelection.swift; sourceTree = "<group>"; };
@@ -167,8 +171,10 @@
 		C5E91B5099A7192F28649D10 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A7B7F3788197D4DB10456C88 /* Beamlet-LICENSE.txt */,
 				AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */,
 				27D9A138E2E91F68F246CA18 /* PrivacyInfo.xcprivacy */,
+				C16B7F98DF6BA42B70D20E7D /* Sparkle-LICENSE.txt */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -317,8 +323,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187708693A4AF062C8E7243F /* Beamlet-LICENSE.txt in Resources */,
 				2BEEBB1FFE41DA6795DEA2B9 /* Beamlet.icon in Resources */,
 				58AAEC42FDA8E63B34EFF24F /* PrivacyInfo.xcprivacy in Resources */,
+				40EEA63EEAFF4335438C4B70 /* Sparkle-LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
