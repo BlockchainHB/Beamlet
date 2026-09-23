@@ -1,0 +1,530 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17AD27A29FE64A23D5D6BE31 /* BeamletSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55027E439561E743729DA531 /* BeamletSurface.swift */; };
+		243336E516F82D62436EFFF0 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6BEA7EE305A8099939DD369 /* Preferences.swift */; };
+		2A5F68C37DABCB3A740E90B6 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F35CDB99DC501D1B9384190 /* SessionController.swift */; };
+		2BEEBB1FFE41DA6795DEA2B9 /* Beamlet.icon in Resources */ = {isa = PBXBuildFile; fileRef = AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */; };
+		3B71335A23B70CD84E066F5F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9521791476EF8F99E5F8C458 /* SettingsView.swift */; };
+		4E1A3947FD43E41217DEBE7A /* ProcessTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8779AAC3B90A137D6B48F60F /* ProcessTransport.swift */; };
+		8A540812BFDD5615DA1E6B45 /* CLIInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BB7B79CAD688CAA8BFE0B /* CLIInstallation.swift */; };
+		8B56145161C88EB2291C4003 /* SystemServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9989C28D82F201958055C69D /* SystemServices.swift */; };
+		94FEE1F860C27BBF077D42A2 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = DE747260FA00A02B22D39071 /* Sparkle */; };
+		A1C1E37E5B343F16EE1973F4 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = EA801875175FD3039A1DB5E3 /* main.c */; };
+		AE6AFFCC9E46712776F04D52 /* BeamletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959F939B27F96BB853B89793 /* BeamletApp.swift */; };
+		B0D1BBCBB939B6DEB5A212D0 /* SessionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96EC7334D899339CD4D59FC /* SessionPanel.swift */; };
+		E7D1341403CBFD6B391F31ED /* UpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15786DF7A001BCB090F5CA28 /* UpdateController.swift */; };
+		EEDF45E85408C9A9598EA025 /* BeamletMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A241A2B21781A6BA74EA4EAB /* BeamletMark.swift */; };
+		FDF3648A2C994FF1009388DC /* BeamletCore in Frameworks */ = {isa = PBXBuildFile; productRef = 72F62A40E3AF6C425195C0B6 /* BeamletCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		609674D1623790C1ABCC3E4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5E6FA225D02DE2722AE69022 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07540D682ADD9D209A98BC17;
+			remoteInfo = BeamletRunner;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		15786DF7A001BCB090F5CA28 /* UpdateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateController.swift; sourceTree = "<group>"; };
+		2E1BB7B79CAD688CAA8BFE0B /* CLIInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIInstallation.swift; sourceTree = "<group>"; };
+		2F35CDB99DC501D1B9384190 /* SessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionController.swift; sourceTree = "<group>"; };
+		55027E439561E743729DA531 /* BeamletSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeamletSurface.swift; sourceTree = "<group>"; };
+		8779AAC3B90A137D6B48F60F /* ProcessTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessTransport.swift; sourceTree = "<group>"; };
+		8B4EA40FFABAC574B6665482 /* BeamletRunner */ = {isa = PBXFileReference; includeInIndex = 0; path = BeamletRunner; sourceTree = BUILT_PRODUCTS_DIR; };
+		9521791476EF8F99E5F8C458 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		959F939B27F96BB853B89793 /* BeamletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeamletApp.swift; sourceTree = "<group>"; };
+		9989C28D82F201958055C69D /* SystemServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemServices.swift; sourceTree = "<group>"; };
+		A241A2B21781A6BA74EA4EAB /* BeamletMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeamletMark.swift; sourceTree = "<group>"; };
+		AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = Beamlet.icon; sourceTree = "<group>"; };
+		C6BEA7EE305A8099939DD369 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		E12E47C9B5F582AD6DA59E6D /* Beamlet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Beamlet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74C178052A28AE2400A3AC4 /* claude remote control */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "claude remote control"; path = .; sourceTree = SOURCE_ROOT; };
+		E96EC7334D899339CD4D59FC /* SessionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionPanel.swift; sourceTree = "<group>"; };
+		EA801875175FD3039A1DB5E3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		34C5DBEC8D890F42179ED767 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDF3648A2C994FF1009388DC /* BeamletCore in Frameworks */,
+				94FEE1F860C27BBF077D42A2 /* Sparkle in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		19F24B47247E584E7E1D8D95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E12E47C9B5F582AD6DA59E6D /* Beamlet.app */,
+				8B4EA40FFABAC574B6665482 /* BeamletRunner */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F57B10CBB40766B8A12C7DF = {
+			isa = PBXGroup;
+			children = (
+				35981482A4872742C60DF69B /* App */,
+				D97E00D710E120A356D21BDF /* Packages */,
+				C5E91B5099A7192F28649D10 /* Resources */,
+				C153C614EF9A1857AC05BF29 /* Runner */,
+				19F24B47247E584E7E1D8D95 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		35981482A4872742C60DF69B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				959F939B27F96BB853B89793 /* BeamletApp.swift */,
+				A241A2B21781A6BA74EA4EAB /* BeamletMark.swift */,
+				55027E439561E743729DA531 /* BeamletSurface.swift */,
+				2E1BB7B79CAD688CAA8BFE0B /* CLIInstallation.swift */,
+				C6BEA7EE305A8099939DD369 /* Preferences.swift */,
+				8779AAC3B90A137D6B48F60F /* ProcessTransport.swift */,
+				2F35CDB99DC501D1B9384190 /* SessionController.swift */,
+				E96EC7334D899339CD4D59FC /* SessionPanel.swift */,
+				9521791476EF8F99E5F8C458 /* SettingsView.swift */,
+				9989C28D82F201958055C69D /* SystemServices.swift */,
+				15786DF7A001BCB090F5CA28 /* UpdateController.swift */,
+			);
+			name = App;
+			path = Sources/App;
+			sourceTree = "<group>";
+		};
+		C153C614EF9A1857AC05BF29 /* Runner */ = {
+			isa = PBXGroup;
+			children = (
+				EA801875175FD3039A1DB5E3 /* main.c */,
+			);
+			name = Runner;
+			path = Sources/Runner;
+			sourceTree = "<group>";
+		};
+		C5E91B5099A7192F28649D10 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AEAB4667171EAAEEF9E0C449 /* Beamlet.icon */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D97E00D710E120A356D21BDF /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				E74C178052A28AE2400A3AC4 /* claude remote control */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		07540D682ADD9D209A98BC17 /* BeamletRunner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F139E8E7E79E625051383E55 /* Build configuration list for PBXNativeTarget "BeamletRunner" */;
+			buildPhases = (
+				4E25F57F7ADBC9DA2CE45A22 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeamletRunner;
+			packageProductDependencies = (
+			);
+			productName = BeamletRunner;
+			productReference = 8B4EA40FFABAC574B6665482 /* BeamletRunner */;
+			productType = "com.apple.product-type.tool";
+		};
+		20A1F7C5DD3595D3FBDF64C2 /* Beamlet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 55EBFA7A0697193D137252E7 /* Build configuration list for PBXNativeTarget "Beamlet" */;
+			buildPhases = (
+				DD27C0E08188BA6C19EA8314 /* Sources */,
+				6EE5830C4BE537CC3BF51618 /* Resources */,
+				34C5DBEC8D890F42179ED767 /* Frameworks */,
+				A21B96AF68DB76F117F834C7 /* Embed process runner */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D7767E777DEC72D35CC2CC57 /* PBXTargetDependency */,
+			);
+			name = Beamlet;
+			packageProductDependencies = (
+				72F62A40E3AF6C425195C0B6 /* BeamletCore */,
+				DE747260FA00A02B22D39071 /* Sparkle */,
+			);
+			productName = Beamlet;
+			productReference = E12E47C9B5F582AD6DA59E6D /* Beamlet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5E6FA225D02DE2722AE69022 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					07540D682ADD9D209A98BC17 = {
+						ProvisioningStyle = Automatic;
+					};
+					20A1F7C5DD3595D3FBDF64C2 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 0C09CA65C57749E6A510D621 /* Build configuration list for PBXProject "Beamlet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 2F57B10CBB40766B8A12C7DF;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FDBFFB292D4A0D585761200D /* XCRemoteSwiftPackageReference "Sparkle" */,
+				441CEFC5FC44D89F1AF63A3B /* XCLocalSwiftPackageReference "." */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 19F24B47247E584E7E1D8D95 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				20A1F7C5DD3595D3FBDF64C2 /* Beamlet */,
+				07540D682ADD9D209A98BC17 /* BeamletRunner */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6EE5830C4BE537CC3BF51618 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BEEBB1FFE41DA6795DEA2B9 /* Beamlet.icon in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A21B96AF68DB76F117F834C7 /* Embed process runner */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed process runner";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -eu\nmkdir -p \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers\"\ncp \"${BUILT_PRODUCTS_DIR}/BeamletRunner\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/BeamletRunner\"\nif [ \"${CODE_SIGNING_ALLOWED:-NO}\" = YES ] && [ -n \"${EXPANDED_CODE_SIGN_IDENTITY:-}\" ]; then\n  /usr/bin/codesign --force --options runtime --timestamp=none --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Helpers/BeamletRunner\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4E25F57F7ADBC9DA2CE45A22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1C1E37E5B343F16EE1973F4 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD27C0E08188BA6C19EA8314 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE6AFFCC9E46712776F04D52 /* BeamletApp.swift in Sources */,
+				EEDF45E85408C9A9598EA025 /* BeamletMark.swift in Sources */,
+				17AD27A29FE64A23D5D6BE31 /* BeamletSurface.swift in Sources */,
+				8A540812BFDD5615DA1E6B45 /* CLIInstallation.swift in Sources */,
+				243336E516F82D62436EFFF0 /* Preferences.swift in Sources */,
+				4E1A3947FD43E41217DEBE7A /* ProcessTransport.swift in Sources */,
+				2A5F68C37DABCB3A740E90B6 /* SessionController.swift in Sources */,
+				B0D1BBCBB939B6DEB5A212D0 /* SessionPanel.swift in Sources */,
+				3B71335A23B70CD84E066F5F /* SettingsView.swift in Sources */,
+				8B56145161C88EB2291C4003 /* SystemServices.swift in Sources */,
+				E7D1341403CBFD6B391F31ED /* UpdateController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D7767E777DEC72D35CC2CC57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07540D682ADD9D209A98BC17 /* BeamletRunner */;
+			targetProxy = 609674D1623790C1ABCC3E4C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8A6DC1EE3CA6BB80227DFF2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8E937DC124F6376FE5254D6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Beamlet;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = app.beamlet.mac;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8F77D8ADBC01A052AD78B93B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BF284F7E37CA1D93092C8F07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.beamlet.runner;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CB0BC821261BEE3A629911F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Beamlet;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = app.beamlet.mac;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F5206E457DB0E8726C2568D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.beamlet.runner;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0C09CA65C57749E6A510D621 /* Build configuration list for PBXProject "Beamlet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F77D8ADBC01A052AD78B93B /* Debug */,
+				8A6DC1EE3CA6BB80227DFF2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		55EBFA7A0697193D137252E7 /* Build configuration list for PBXNativeTarget "Beamlet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8E937DC124F6376FE5254D6C /* Debug */,
+				CB0BC821261BEE3A629911F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F139E8E7E79E625051383E55 /* Build configuration list for PBXNativeTarget "BeamletRunner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF284F7E37CA1D93092C8F07 /* Debug */,
+				F5206E457DB0E8726C2568D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		441CEFC5FC44D89F1AF63A3B /* XCLocalSwiftPackageReference "." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = .;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FDBFFB292D4A0D585761200D /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = exactVersion;
+				version = 2.9.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		72F62A40E3AF6C425195C0B6 /* BeamletCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = BeamletCore;
+		};
+		DE747260FA00A02B22D39071 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FDBFFB292D4A0D585761200D /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 5E6FA225D02DE2722AE69022 /* Project object */;
+}

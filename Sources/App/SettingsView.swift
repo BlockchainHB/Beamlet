@@ -1,0 +1,410 @@
+import SwiftUI
+import BeamletCore
+import ServiceManagement
+import UserNotifications
+
+enum SettingsTab: String {
+    case general, connection, about
+
+    var title: String {
+        switch self {
+        case .general: return "General"
+        case .connection: return "Connection"
+        case .about: return "About"
+        }
+    }
+}
+
+struct SettingsView: View {
+    @AppStorage("settingsTab") private var selection: SettingsTab = .general
+    @ObservedObject var preferences: Preferences
+    @ObservedObject var session: SessionController
+    @ObservedObject var login: LoginItem
+    @ObservedObject var updates: UpdateController
+    @ObservedObject var power: PowerManager
+    @State private var showDiagnostics = false
+    @State private var setupCopied = false
+
+    @State private var showSetup = false
+
+    var body: some View {
+        HStack(spacing: 0) {
+            List(selection: Binding<SettingsTab?>(get: { selection }, set: { if let tab = $0 { selection = tab } })) {
+                sidebarLabel("General", symbol: "slider.horizontal.3").tag(SettingsTab.general)
+                sidebarLabel("Connection", symbol: "antenna.radiowaves.left.and.right").tag(SettingsTab.connection)
+                sidebarLabel("About", symbol: "info.circle").tag(SettingsTab.about)
+            }
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+            .padding(.top, 12)
+            .frame(width: 170)
+            .frame(maxHeight: .infinity)
+            .background {
+                SettingsSidebarMaterial()
+                    .ignoresSafeArea(.container, edges: .top)
+            }
+            Divider().ignoresSafeArea(.container, edges: .top)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(selection.title)
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
+                    .padding(.horizontal, 24).padding(.top, 22).padding(.bottom, 4)
+                Group {
+                    switch selection {
+                    case .general: general
+                    case .connection: connection
+                    case .about: about
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .background { BeamletSurface().ignoresSafeArea(.container, edges: .top) }
+        }
+        .frame(width: 700, height: 540)
+        .tint(BeamletStyle.accent)
+        .background(SettingsWindowChrome())
+        .onAppear { login.refresh() }
+    }
+
+    private func sidebarLabel(_ title: String, symbol: String) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: symbol)
+                .font(.system(size: 13, weight: .regular))
+                .frame(width: 18, height: 18)
+                .accessibilityHidden(true)
+            Text(title).font(.system(size: 13))
+        }
+        .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(title)
+    }
+
+    private var general: some View {
+        settingsForm {
+            Section("Startup") {
+                Toggle(isOn: Binding(get: { login.enabled }, set: { login.setEnabled($0) })) {
+                    settingLabel("Launch at login", detail: "Keep Beamlet in your menu bar when you sign in.")
+                }
+                .accessibilityLabel("Launch at login")
+                .accessibilityHint("Keep Beamlet in your menu bar when you sign in.")
+                if let message = login.message {
+                    Text(message).font(.caption).foregroundStyle(.secondary)
+                    Button("Open Login Items settings") { SMAppService.openSystemSettingsLoginItems() }
+                }
+                Toggle(isOn: $preferences.autoStart) {
+                    settingLabel("Connect automatically", detail: "Start Remote Control when Beamlet opens. Pressing Stop keeps it stopped until you start again.")
+                }
+                .accessibilityLabel("Connect automatically")
+                .accessibilityHint("Pressing Stop keeps it stopped until you start again.")
+            }
+            Section("Power") {
+                Toggle(isOn: $preferences.keepAwake) {
+                    settingLabel("Keep Mac awake", detail: "While Remote Control runs and your Mac is plugged in. The display can still sleep.")
+                }
+                .accessibilityLabel("Keep Mac awake")
+                .accessibilityHint("Only while Remote Control runs and your Mac is plugged in.")
+                if power.preventingSleep {
+                    Label("Keeping this Mac awake on power", systemImage: "bolt")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                Text("Closing the lid can still put your Mac to sleep.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            Section("Notifications") {
+                NotificationSettings(preferences: preferences, services: session.services)
+            }
+        }
+    }
+
+    private var connection: some View {
+        settingsForm {
+            Section("Workspace") {
+                HStack(spacing: 16) {
+                    settingLabel("Starting folder", detail: preferences.displayFolder, path: true)
+                    Spacer(minLength: 0)
+                    Button("Choose…") { chooseFolder() }
+                        .accessibilityLabel("Choose starting folder")
+                }
+                if let active = session.activeFolder, active != preferences.folderURL.path {
+                    Text("Your new folder will be used the next time you start Remote Control.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            Section("Claude Code") {
+                HStack(spacing: 16) {
+                    settingLabel("Installed executable", detail: executableLabel, path: true)
+                    Spacer(minLength: 0)
+                    Button("Choose…") { chooseExecutable() }
+                        .accessibilityLabel("Choose Claude Code executable")
+                }
+                if !preferences.executable.isEmpty {
+                    Button("Use automatically detected Claude Code") { preferences.executable = "" }
+                }
+                Text("Uses your existing Claude Code sign-in and permissions.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            if let issue = session.state.issue {
+                Section {
+                    Label(issue.message, systemImage: "exclamationmark.triangle")
+                        .font(.callout).fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            Section {
+                DisclosureGroup("Set up in Terminal", isExpanded: $showSetup) {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Sign in with /login, trust your starting folder, then run /remote-control and accept consent. Exit Claude before starting Beamlet.")
+                            .font(.callout).foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                        HStack {
+                            Button("Open Terminal") { openTerminal() }
+                            Button(setupCopied ? "Command copied" : "Copy command") { copySetup() }
+                        }
+                        .disabled(!canCopySetup)
+                        Text("The setup command is copied for you to paste into Terminal.")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }.padding(.vertical, 8)
+                }
+            }
+        }
+        .onAppear { if session.state.issue != nil { showSetup = true } }
+        .onChange(of: preferences.folder) { _, _ in setupCopied = false }
+        .onChange(of: preferences.executable) { _, _ in setupCopied = false }
+    }
+
+    private var about: some View {
+        settingsForm {
+            Section {
+                HStack(spacing: 16) {
+                    BeamletMark().stroke(BeamletStyle.accent, style: .init(lineWidth: 3, lineCap: .round))
+                        .frame(width: 40, height: 40).padding(14)
+                        .background(BeamletStyle.accent.opacity(0.10), in: RoundedRectangle(cornerRadius: 22))
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Beamlet").font(.system(size: 25, weight: .semibold, design: .rounded))
+                        Text("Claude, within reach.").foregroundStyle(.secondary)
+                        Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Development")")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                }.padding(.vertical, 8)
+            }
+            Section("Updates") {
+                HStack {
+                    Button("Check for Updates…") { updates.check() }
+                        .disabled(!updates.configured || session.isBusy || updates.checking)
+                    if updates.hasDeferredInstall {
+                        Button("Install update") { updates.installWhenStopped() }.disabled(session.isBusy)
+                    }
+                }
+                Text(session.isBusy && updates.configured ? "Stop Remote Control before installing an update." : updates.message)
+                    .font(.caption).foregroundStyle(.secondary)
+            }
+            Section("Privacy & support") {
+                Text("Connection events stay on this Mac. No analytics, automatic uploads, or saved conversations.")
+                    .font(.callout).foregroundStyle(.secondary)
+                DisclosureGroup("Connection diagnostics", isExpanded: $showDiagnostics) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        ScrollView {
+                            Text(session.diagnostics.entries.isEmpty ? "No connection events yet." : session.diagnostics.entries.joined(separator: "\n"))
+                                .font(.system(size: 11, design: .monospaced))
+                                .textSelection(.enabled).frame(maxWidth: .infinity, alignment: .leading)
+                        }.frame(height: 100)
+                        Button("Copy diagnostics") { session.copyDiagnostics() }
+                    }.padding(.vertical, 8)
+                }
+            }
+            Text("Independent companion for Claude Code. Not affiliated with Anthropic.")
+                .font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private var canCopySetup: Bool {
+        !preferences.folder.isEmpty && CLIInstallation.executable(override: preferences.executable) != nil
+    }
+
+    private func settingsForm<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+        Form(content: content)
+            .formStyle(.grouped)
+            .scrollContentBackground(.hidden)
+    }
+
+    private func settingLabel(_ title: String, detail: String, path: Bool = false) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+            Text(detail).font(.caption).foregroundStyle(.secondary)
+                .lineLimit(path ? 1 : nil).truncationMode(.middle)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.vertical, 3)
+        .help(path ? detail : "")
+    }
+
+    private var executableLabel: String {
+        guard let executable = CLIInstallation.executable(override: preferences.executable) else { return "Not found" }
+        return (executable.path as NSString).abbreviatingWithTildeInPath
+    }
+
+    private func chooseFolder() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Choose folder"
+        if panel.runModal() == .OK, let url = panel.url { preferences.folder = url.path }
+    }
+
+    private func chooseExecutable() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.showsHiddenFiles = true
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Choose Claude"
+        if panel.runModal() == .OK, let url = panel.url { preferences.executable = url.path }
+    }
+
+    private func copySetup() {
+        guard let executable = CLIInstallation.executable(override: preferences.executable), !preferences.folder.isEmpty else { return }
+        func quote(_ value: String) -> String { "'" + value.replacingOccurrences(of: "'", with: "'\\''") + "'" }
+        let command = "cd -- \(quote(preferences.folderURL.path)) && \(quote(executable.path))"
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(command, forType: .string)
+        setupCopied = true
+    }
+
+    private func openTerminal() {
+        copySetup()
+        if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Terminal") {
+            NSWorkspace.shared.openApplication(at: url, configuration: .init())
+        }
+    }
+}
+
+private struct NotificationSettings: View {
+    @ObservedObject var preferences: Preferences
+    @ObservedObject var services: SystemServices
+
+    var body: some View {
+        Group {
+            Toggle(isOn: $preferences.notifications) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Notify when attention is needed")
+                    Text("A quiet heads-up when the connection needs your help.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }.padding(.vertical, 3)
+            }
+            .accessibilityLabel("Notify when attention is needed")
+            .onChange(of: preferences.notifications) { _, enabled in
+                if enabled && services.notificationAuthorization == .notDetermined { services.requestNotifications() }
+            }
+            if preferences.notifications {
+                switch services.notificationAuthorization {
+                case .notDetermined:
+                    Button(services.requestingNotifications ? "Requesting permission…" : "Allow notifications…") {
+                        services.requestNotifications()
+                    }.disabled(services.requestingNotifications)
+                case .denied:
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Notifications are turned off for Beamlet in macOS.")
+                            .font(.caption).foregroundStyle(.secondary)
+                        Button("Open Notification Settings…") {
+                            if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension") {
+                                NSWorkspace.shared.open(url)
+                            }
+                        }
+                    }
+                default:
+                    EmptyView()
+                }
+                if let error = services.notificationError {
+                    Text(error).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+        }
+            .task { await services.refreshNotificationAuthorization() }
+            .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+                Task { await services.refreshNotificationAuthorization() }
+            }
+    }
+}
+
+/// Apply the same compact native window chrome to Settings and its debug preview.
+private struct SettingsWindowChrome: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSView { WindowView() }
+    func updateNSView(_ nsView: NSView, context: Context) {}
+
+    private final class WindowView: NSView {
+        private var observers: [NSObjectProtocol] = []
+        private weak var attachedWindow: NSWindow?
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            guard let window, window !== attachedWindow else { return }
+            for observer in observers { NotificationCenter.default.removeObserver(observer) }
+            observers.removeAll()
+            attachedWindow = window
+            window.styleMask.formUnion([.titled, .closable, .miniaturizable, .fullSizeContentView])
+            window.isReleasedWhenClosed = false
+            window.titleVisibility = .hidden
+            window.titlebarAppearsTransparent = true
+            window.toolbar = nil
+            window.standardWindowButton(.closeButton)?.isHidden = false
+            window.standardWindowButton(.miniaturizeButton)?.isHidden = false
+            SettingsWindowManager.shared.opened(window)
+            observers.append(NotificationCenter.default.addObserver(forName: NSWindow.didBecomeKeyNotification, object: window, queue: .main) { [weak window] _ in
+                MainActor.assumeIsolated {
+                    if let window { SettingsWindowManager.shared.opened(window) }
+                }
+            })
+            observers.append(NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { [weak window] _ in
+                MainActor.assumeIsolated {
+                    if let window { SettingsWindowManager.shared.closed(window) }
+                }
+            })
+        }
+
+        deinit {
+            for observer in observers { NotificationCenter.default.removeObserver(observer) }
+        }
+    }
+}
+
+/// Match the native Settings sidebar, including system transparency preferences.
+private struct SettingsSidebarMaterial: NSViewRepresentable {
+    func makeNSView(context: Context) -> NSVisualEffectView {
+        let view = NSVisualEffectView()
+        view.material = .sidebar
+        view.blendingMode = .behindWindow
+        view.state = .followsWindowActiveState
+        return view
+    }
+    func updateNSView(_ nsView: NSVisualEffectView, context: Context) {}
+}
+
+/// Dock presence belongs to open Settings windows; the connection lives independently.
+@MainActor
+final class SettingsWindowManager {
+    static let shared = SettingsWindowManager()
+    private let windows = NSHashTable<NSWindow>.weakObjects()
+    // Retain the last Settings window so a Dock/Finder reopen can restore it after close.
+    private var lastWindow: NSWindow?
+
+    func opened(_ window: NSWindow) {
+        lastWindow = window
+        windows.add(window)
+        if NSApp.activationPolicy() != .regular { NSApp.setActivationPolicy(.regular) }
+    }
+
+    func closed(_ window: NSWindow) {
+        windows.remove(window)
+        if windows.allObjects.isEmpty { NSApp.setActivationPolicy(.accessory) }
+    }
+
+    @discardableResult
+    func reopen() -> Bool {
+        guard let window = windows.allObjects.first ?? lastWindow else { return false }
+        opened(window)
+        if window.isMiniaturized { window.deminiaturize(nil) }
+        window.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+        return true
+    }
+}

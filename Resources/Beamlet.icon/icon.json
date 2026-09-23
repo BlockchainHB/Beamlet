@@ -1,0 +1,29 @@
+{
+  "fill": {
+    "automatic-gradient": "extended-srgb:0.84000,0.26000,0.14000,1.00000"
+  },
+  "groups": [
+    {
+      "name": "Beamlet mark",
+      "layers": [
+        {
+          "image-name": "BeamletMark.svg",
+          "name": "Beamlet mark"
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.3
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.15
+      }
+    }
+  ],
+  "supported-platforms": {
+    "squares": [
+      "macOS"
+    ]
+  }
+}
