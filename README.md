@@ -3,7 +3,7 @@
 <p align="center"><strong>Claude, within reach.</strong><br>Remote Control in your Mac’s menu bar. Ready when you are.</p>
 
 <p align="center">
-  <a href="https://github.com/BlockchainHB/Beamlet/releases">Releases</a> ·
+  <a href="https://github.com/BlockchainHB/Beamlet/releases/tag/v0.1.0">Download for Mac</a> ·
   <a href="#get-started">Get started</a> ·
   <a href="https://blockchainhb.github.io/Beamlet/">Website</a> ·
   <a href="https://github.com/BlockchainHB/Beamlet/issues">Feedback</a>
@@ -30,7 +30,7 @@ Beamlet gives `claude remote-control` a small, native home: start it, see its st
 
 ## Get started
 
-**First signed download is being prepared.** This repository currently provides source and development builds. Published downloads will appear under [GitHub Releases](https://github.com/BlockchainHB/Beamlet/releases); there is no Mac App Store version.
+**[Download Beamlet 0.1.0 — Public Beta](https://github.com/BlockchainHB/Beamlet/releases/tag/v0.1.0).** Unzip the download, drag Beamlet to Applications, and open it. The universal app is Developer ID signed and notarized by Apple. See the release notes for beta testing coverage; there is no Mac App Store version.
 
 ### 1. Set up Claude Code once
 
