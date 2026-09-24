@@ -28,7 +28,7 @@ cp Resources/Info.plist "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleExecutable Beamlet' "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleIdentifier app.beamlet.mac' "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 0.1.0' "$app/Contents/Info.plist"
-/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 2' "$app/Contents/Info.plist"
+/usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 3' "$app/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c 'Set :LSMinimumSystemVersion 14.0' "$app/Contents/Info.plist"
 # Local development only. Public releases use Developer ID and preserve library validation.
 codesign --force --sign - "$app/Contents/Helpers/BeamletRunner"

@@ -3,7 +3,7 @@ import BeamletCore
 import ServiceManagement
 import UserNotifications
 
-enum SettingsTab: String {
+enum SettingsTab: String, CaseIterable {
     case general, connection, about
 
     var title: String {
@@ -24,20 +24,34 @@ struct SettingsView: View {
     @ObservedObject var power: PowerManager
     @State private var showDiagnostics = false
     @State private var setupCopied = false
+    @FocusState private var focusedTab: SettingsTab?
 
     @State private var showSetup = false
 
     var body: some View {
         HStack(spacing: 0) {
-            List(selection: Binding<SettingsTab?>(get: { selection }, set: { if let tab = $0 { selection = tab } })) {
-                sidebarLabel("General", symbol: "slider.horizontal.3").tag(SettingsTab.general)
-                sidebarLabel("Connection", symbol: "antenna.radiowaves.left.and.right").tag(SettingsTab.connection)
-                sidebarLabel("About", symbol: "info.circle").tag(SettingsTab.about)
+            VStack(spacing: 2) {
+                sidebarButton(.general, symbol: "slider.horizontal.3")
+                sidebarButton(.connection, symbol: "antenna.radiowaves.left.and.right")
+                sidebarButton(.about, symbol: "info.circle")
+                Spacer(minLength: 0)
             }
-            .listStyle(.sidebar)
-            .scrollContentBackground(.hidden)
+            .padding(.horizontal, 10)
+            .padding(.top, 8)
             .frame(width: 170)
             .frame(maxHeight: .infinity)
+            .onMoveCommand { direction in
+                let tabs = SettingsTab.allCases
+                guard let index = tabs.firstIndex(of: focusedTab ?? selection) else { return }
+                let next: Int
+                switch direction {
+                case .up: next = max(0, index - 1)
+                case .down: next = min(tabs.count - 1, index + 1)
+                default: return
+                }
+                selection = tabs[next]
+                focusedTab = tabs[next]
+            }
             .background {
                 SettingsSidebarMaterial()
                     .ignoresSafeArea(.container, edges: .top)
@@ -64,6 +78,30 @@ struct SettingsView: View {
         .onAppear { login.refresh() }
     }
 
+    private func sidebarButton(_ tab: SettingsTab, symbol: String) -> some View {
+        Button {
+            selection = tab
+            focusedTab = tab
+        } label: {
+            sidebarLabel(tab.title, symbol: symbol)
+                .frame(maxWidth: .infinity, minHeight: 34, alignment: .leading)
+                .padding(.horizontal, 9)
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .buttonStyle(SettingsSidebarButtonStyle(selected: selection == tab))
+        .focusable()
+        .focused($focusedTab, equals: tab)
+        .focusEffectDisabled()
+        .overlay {
+            if focusedTab == tab {
+                RoundedRectangle(cornerRadius: 10)
+                    .strokeBorder(.primary.opacity(0.4), lineWidth: 1.5)
+                    .allowsHitTesting(false)
+            }
+        }
+        .accessibilityAddTraits(selection == tab ? .isSelected : [])
+    }
+
     private func sidebarLabel(_ title: String, symbol: String) -> some View {
         HStack(spacing: 10) {
             Image(systemName: symbol)
@@ -72,7 +110,6 @@ struct SettingsView: View {
                 .accessibilityHidden(true)
             Text(title).font(.system(size: 13))
         }
-        .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(title)
     }
@@ -304,6 +341,45 @@ struct SettingsView: View {
     }
 }
 
+/// Neutral navigation selection, with native glass on supported macOS versions.
+private struct SettingsSidebarButtonStyle: ButtonStyle {
+    let selected: Bool
+
+    func makeBody(configuration: Configuration) -> some View {
+        Row(configuration: configuration, selected: selected)
+    }
+
+    private struct Row: View {
+        let configuration: ButtonStyle.Configuration
+        let selected: Bool
+        @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+        @Environment(\.colorSchemeContrast) private var contrast
+        @State private var hovered = false
+
+        var body: some View {
+            configuration.label
+                .foregroundStyle(.primary)
+                .background { surface }
+                .overlay {
+                    if selected && contrast == .increased {
+                        RoundedRectangle(cornerRadius: 10).strokeBorder(.primary.opacity(0.5), lineWidth: 1)
+                    }
+                }
+                .onHover { hovered = $0 }
+        }
+
+        @ViewBuilder private var surface: some View {
+            if #available(macOS 26, *), selected, !reduceTransparency, contrast != .increased {
+                RoundedRectangle(cornerRadius: 10).fill(.clear)
+                    .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 10))
+            } else {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.primary.opacity(configuration.isPressed ? 0.16 : selected ? 0.10 : hovered ? 0.05 : 0))
+            }
+        }
+    }
+}
+
 private struct NotificationSettings: View {
     @ObservedObject var preferences: Preferences
     @ObservedObject var services: SystemServices
@@ -371,6 +447,7 @@ private struct SettingsWindowChrome: NSViewRepresentable {
             window.isReleasedWhenClosed = false
             window.titleVisibility = .hidden
             window.titlebarAppearsTransparent = true
+            window.titlebarSeparatorStyle = .none
             window.toolbar = nil
             window.standardWindowButton(.closeButton)?.isHidden = false
             window.standardWindowButton(.miniaturizeButton)?.isHidden = false
